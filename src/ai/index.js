@@ -1,3 +1,3 @@
-export const move = (game) => {
+export const move = game => {
   return null;
 };

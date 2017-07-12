@@ -1,9 +1,10 @@
 import withSocket from 'react-with-socket';
 
-const logError = (msg) => console.error(msg); // eslint-disable-line no console
+const logError = msg => console.error(msg); // eslint-disable-line no console
 
-const isInGame = (game) => game && (game.status.type === 'ONGOING' || game.status.type === 'FINISHED');
-const hasPendingGame = (game) => game && game.status.type === 'WAITING';
+const isInGame = game =>
+  game && (game.status.type === 'ONGOING' || game.status.type === 'FINISHED');
+const hasPendingGame = game => game && game.status.type === 'WAITING';
 
 const initialState = {
   isInGame: false,
@@ -11,22 +12,35 @@ const initialState = {
 };
 
 const mapData = () => ({
-  'client:init': (props, game) => ({ game, isInGame: isInGame(game), hasPendingGame: hasPendingGame(game) }),
+  'client:init': (props, game) => ({
+    game,
+    isInGame: isInGame(game),
+    hasPendingGame: hasPendingGame(game)
+  }),
   'client:move': (props, game) => ({ game }),
-  'client:leave': () => ({ game: undefined, isInGame: false, hasPendingGame: false }),
-  'client:lobby': (props, games) => ({ games: (games || []).filter(game => game.players[0] !== props.username) })
+  'client:leave': () => ({
+    game: undefined,
+    isInGame: false,
+    hasPendingGame: false
+  }),
+  'client:lobby': (props, games) => ({ games })
 });
 
-const mapEmit = (emit, { game, games, username, isInGame, hasPendingGame }) => ({
+const mapEmit = (
+  emit,
+  { game, games, username, isInGame, hasPendingGame }
+) => ({
   actions: {
     create: () => {
       if (hasPendingGame) {
-        logError('You already have a pending game created, cannot create a second one');
+        logError(
+          'You already have a pending game created, cannot create a second one'
+        );
       } else {
         emit('create', { username });
       }
     },
-    join: (gameUid) => {
+    join: gameUid => {
       if (games.length) {
         emit('join', { username, gameUid });
       } else {
@@ -54,21 +68,18 @@ const mapEmit = (emit, { game, games, username, isInGame, hasPendingGame }) => (
   }
 });
 
-const tryAiMove = (props, game) => {
-  const { ai, username } = props;
-  if (ai && ai.move && username === game.turn) {
-    // we could be nice and benchmark here, so that we immediately
-    // report back to people how long their AI takes to make a move ;)
-    const nextPosition = ai.move(game);
-    if (nextPosition) {
-      props.actions.move(nextPosition);
+const callbacks = () => ({
+  'client:move': (props, game) => {
+    const { ai, username } = props;
+    if (ai && ai.move && username === game.turn) {
+      // we could be nice and benchmark here, so that we immediately
+      // report back to people how long their AI takes to make a move ;)
+      const nextPosition = ai.move(game);
+      if (nextPosition) {
+        props.actions.move(nextPosition);
+      }
     }
   }
-};
-
-const callbacks = () => ({
-  'client:move': tryAiMove,
-  'client:init': tryAiMove
 });
 
 export default withSocket({ initialState, mapData, mapEmit, callbacks });

@@ -6,11 +6,7 @@ describe('ai', () => {
       const game = {
         players: ['x', 'o'],
         turn: ['o'],
-        board: [
-          ['x', '', ''],
-          ['', '', ''],
-          ['', '', '']
-        ]
+        board: [['x', '', ''], ['', '', ''], ['', '', '']]
       };
       const nextMove = move(game);
       expect(nextMove.y).toEqual(1);
@@ -21,11 +17,7 @@ describe('ai', () => {
       const game = {
         players: ['x', 'o'],
         turn: ['o'],
-        board: [
-          ['x', 'x', 'o'],
-          ['o', '', ''],
-          ['x', 'o', 'x']
-        ]
+        board: [['x', 'x', 'o'], ['o', '', ''], ['x', 'o', 'x']]
       };
       const nextMove = move(game);
       expect(nextMove.y).toEqual(1);
@@ -36,11 +28,7 @@ describe('ai', () => {
       const game = {
         players: ['x', 'o'],
         turn: ['o'],
-        board: [
-          ['x', 'o', 'x'],
-          ['o', 'o', ''],
-          ['x', 'x', '']
-        ]
+        board: [['x', 'o', 'x'], ['o', 'o', ''], ['x', 'x', '']]
       };
       const nextMove = move(game);
       expect(nextMove.y).toEqual(1);

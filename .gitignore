@@ -22,3 +22,5 @@ client/yarn-error.log*
 
 node_modules
 build
+
+.vscode

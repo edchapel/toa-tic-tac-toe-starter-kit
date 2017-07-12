@@ -6,7 +6,7 @@ import * as ai from './ai';
 import './index.css';
 import { setSocketConfig } from 'react-with-socket';
 
-const USERNAME = '[please provide your username]';
+const USERNAME = 'ed';
 
 setSocketConfig({
   base: '35.189.249.30:8080',

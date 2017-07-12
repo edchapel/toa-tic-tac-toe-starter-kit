@@ -10,9 +10,18 @@
     "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
+    "lint-staged": "^4.0.1",
+    "prettier": "^1.5.2",
     "react-scripts": "1.0.7"
   },
+  "lint-staged": {
+   "src/**/*.{js,jsx,json,css}": [
+     "prettier --single-quote --write",
+     "git add"
+   ]
+ },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

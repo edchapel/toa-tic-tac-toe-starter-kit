@@ -25,10 +25,14 @@ class TicTacToe extends React.Component {
 
     return (
       <div>
-        <h1>Hello {username}!</h1>
+        <h1>
+          Hello {username}!
+        </h1>
 
         <p>
-          <a href="https://github.com/TOA-Berlin-TicTacToe/toa-tic-tac-toe-starter-kit">Check out the instructions to get started!</a>
+          <a href="https://github.com/TOA-Berlin-TicTacToe/toa-tic-tac-toe-starter-kit">
+            Check out the instructions to get started!
+          </a>
         </p>
       </div>
     );
