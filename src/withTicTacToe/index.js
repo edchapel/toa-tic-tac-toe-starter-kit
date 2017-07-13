@@ -1,4 +1,5 @@
 import withSocket from 'react-with-socket';
+import ai from '../ai';
 
 const logError = msg => console.error(msg); // eslint-disable-line no console
 
@@ -8,7 +9,8 @@ const hasPendingGame = game => game && game.status.type === 'WAITING';
 
 const initialState = {
   isInGame: false,
-  games: []
+  games: [],
+  ai
 };
 
 const mapData = () => ({
