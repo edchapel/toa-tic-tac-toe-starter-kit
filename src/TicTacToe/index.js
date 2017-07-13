@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import withTicTacToe from '../withTicTacToe';
 import './style.css';
@@ -32,7 +31,7 @@ class TicTacToe extends React.Component {
         </h1>
 
         { isInGame ?
-            <Game /> :
+            <Game username={username} game={game} onMove={move} onLeave={leave} /> :
             <Lobby games={games} onJoin={join} onCreate={create} />
         }
       </div>
@@ -40,8 +39,53 @@ class TicTacToe extends React.Component {
   }
 }
 
-function Game() {
-  return null;
+function Game({ game, username, onMove, onLeave }) {
+  const showGameStatus = () => {
+    switch(game.status.type) {
+      case 'WAITING':
+        return (<div>Waiting for a player to join...</div>);
+        
+      case 'ONGOING':
+        return username === game.turn
+          ? (<div>Your turn</div>)
+          : (<div>Waiting for {game.turn}</div>);
+   
+      case 'FINISHED':
+        return game.status.winner === 'DRAW'
+          ? (<div>Draw... lame.</div>)
+          : (<div>The winner is {game.status.winner}!</div>);
+
+      default:
+        return (<div className="error">Unknown game state: {game.status.type}</div>);
+    }
+  };
+
+  return (
+    <div>
+      { showGameStatus() }
+      <div>
+        { game.board.map((row, y) => (
+            <div key={y} className="board-row">
+              {
+                row.map((col, x) => {
+                  let mark = '';
+                  if (game.players[0] === col) { mark = 'X'; }
+                  if (game.players[1] === col) { mark = 'O'; }
+                  const onClick = mark ? () => {} : () => onMove({ y, x });
+                  return (
+                    <div key={x} className="board-cell" onClick={onClick}>{ mark }</div>
+                  );
+                })
+              }
+            </div>
+          )
+        )}
+      </div>
+      <div>
+        <button onClick={() => onLeave()}>Leave</button>
+      </div>
+    </div>
+  );
 }
 
 function Lobby({ games, onJoin, onCreate }) {
