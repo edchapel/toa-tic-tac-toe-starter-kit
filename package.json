@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-with-socket": "0.0.4",
@@ -15,11 +16,11 @@
     "react-scripts": "1.0.7"
   },
   "lint-staged": {
-   "src/**/*.{js,jsx,json,css}": [
-     "prettier --single-quote --write",
-     "git add"
-   ]
- },
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
     "precommit": "lint-staged",
     "start": "react-scripts start",

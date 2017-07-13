@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import withTicTacToe from '../withTicTacToe';
 import './style.css';
@@ -22,6 +23,7 @@ import './style.css';
 class TicTacToe extends React.Component {
   render() {
     const { game, games, isInGame, hasPendingGame, actions, username } = this.props;
+    const { create, join, leave, move } = actions;
 
     return (
       <div>
@@ -29,14 +31,38 @@ class TicTacToe extends React.Component {
           Hello {username}!
         </h1>
 
-        <p>
-          <a href="https://github.com/TOA-Berlin-TicTacToe/toa-tic-tac-toe-starter-kit">
-            Check out the instructions to get started!
-          </a>
-        </p>
+        { isInGame ?
+            <Game /> :
+            <Lobby games={games} onJoin={join} onCreate={create} />
+        }
       </div>
     );
   }
+}
+
+function Game() {
+  return null;
+}
+
+function Lobby({ games, onJoin, onCreate }) {
+  const gameList = games.map(game => (
+    <div key={game.gameUid}>
+      <button onClick={() => onJoin(game.gameUid)}>
+        {game.status.type}: {game.players[0]}
+      </button>
+    </div>)
+  );
+
+  return (
+    <div>
+      <button onClick={() => onCreate()}>
+        Create a game
+      </button>
+      <ul>
+        {gameList}
+      </ul>
+    </div>
+  );
 }
 
 export default withTicTacToe(TicTacToe);
